@@ -11,7 +11,7 @@ This project follows Separation of Concerns principles.
 3. **API Integration**
 4. **Error Handling and Loading Indicator**
 
-### API Documentation**: 
+### API Documentation: 
 [The Guardian API Documentation](https://open-platform.theguardian.com/documentation/)  
 
 ## Folder Structure
@@ -48,26 +48,3 @@ const state = {
     trailText: '',
   };
 ```
-
-
-## Must-Have Features
-
-1. **Add Favicon**  
-2. **Responsive Layout**  
-3. **Single Page**  
-4. **Error and Loading Feedback**  
-5. **API Interaction**  
-6. **User Interaction**
-
----
-
-## Good-to-Have Features
-
-1. **Back to Top Button**  
-2. **Display Additional Article Information**  
-3. **Order by Criteria**  
-4. **Enhanced Pagination Controls**  
-5. **Filter by Section**  
-6. **Search by Keywords**  
-7. **Filter by Tag**  
-8. **Date Range Filter**
