@@ -10,7 +10,7 @@ export async function fetchData(url) {
   }
 
   const jsonResponse = await res.json();
-  const data = jsonResponse.response.results; // Accessing articles directly from the 'results' array
+  const data = jsonResponse.response.results;
   const headers = res.headers;
 
   return { data, headers };
