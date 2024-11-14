@@ -4,6 +4,11 @@ This application, **Newsfeed App**, is created using The Guardian's API and and 
 
 This project follows Separation of Concerns principles.
 
+
+### App Design
+
+The design of this app is inspired by the [Google News](https://news.google.com/home?hl=en-US&gl=US&ceid=US:en) website.
+
 ## Key Features
 
 1. **Single Page Application**
