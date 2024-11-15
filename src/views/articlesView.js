@@ -3,12 +3,10 @@ import { createArticleListItemView } from './articleListItemView.js';
 export function createArticlesView(viewProps) {
   const root = document.createElement('div');
   root.className = 'articles-container';
+
   root.innerHTML = String.raw`
     <header class="header">
       <div class="header-content">
-        <a href="#home" class="toolbar-button">
-          <i class="fa-solid fa-house"></i>
-        </a>
         <div>Guardian Articles</div>
       </div>
     </header>
@@ -35,10 +33,9 @@ export function createArticlesView(viewProps) {
   const update = (state) => {
     if (state.loading) {
       loadingIndicator.classList.remove('hide');
-      return;
+    } else {
+      loadingIndicator.classList.add('hide');
     }
-
-    loadingIndicator.classList.add('hide');
 
     if (state.error || !state.data) {
       listContainer.innerHTML = state.error

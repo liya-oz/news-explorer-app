@@ -2,50 +2,67 @@ import { API_BASE_URL, API_KEY } from '../constants.js';
 import { fetchData } from '../util/fetchData.js';
 import { loadPage } from '../util/loadPage.js';
 import { createArticlesView } from '../views/articlesView.js';
-
 import { createErrorPage } from './errorPage.js';
 
-export function createArticlesPage(state) {
+export function createArticlesPage(initialState) {
+  const state = { ...initialState };
+
   const onNextPage = () => {
-    state = { ...state, page: state.page + 1 };
+    state.page += 1;
     update();
   };
 
   const onPrevPage = () => {
-    state = { ...state, page: state.page - 1 };
+    state.page -= 1;
     update();
   };
 
   const viewProps = {
     onNextPage,
     onPrevPage,
+    onItemClick: (article) => {},
   };
 
   const articlesView = createArticlesView(viewProps);
 
   const update = async () => {
     try {
-      state = { ...state, error: null, loading: true, data: null };
+      state.loading = true;
+      state.error = null;
+      state.data = null;
       articlesView.update(state);
 
       const url = `${API_BASE_URL}/search?page=${state.page}&page-size=${state.pageSize}&order-by=${state.orderBy}&show-fields=thumbnail,trailText&api-key=${API_KEY}`;
 
       const { data, headers } = await fetchData(url);
 
-      const totalResults = headers.get('Total-Results') || 0;
-      console.log(headers);
-      const totalPages = Math.ceil(totalResults / 10);
+      // Check if 'Total-Results' header is present
+      let totalResults = headers.get('Total-Results');
+      if (!totalResults) {
+        totalResults = 100000;
+      } else {
+        totalResults = parseInt(totalResults, 10);
+      }
 
-      state = {
-        ...state,
-        data,
-        loading: false,
-        hasPrev: state.page > 1,
-        hasNext: state.page < totalPages,
-      };
+      const totalPages = Math.ceil(totalResults / state.pageSize);
+
+      if (totalResults === 0) {
+        state.data = [];
+        state.hasPrev = false;
+        state.hasNext = false;
+        articlesView.update(state);
+        return;
+      }
+
+      state.data = data;
+      state.loading = false;
+      state.hasPrev = state.page > 1;
+      state.hasNext = state.page < totalPages;
+
       articlesView.update(state);
     } catch (error) {
-      state = { ...state, error, loading: false };
+      state.error = error;
+      state.loading = false;
       loadPage(createErrorPage, state);
     }
   };
