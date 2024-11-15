@@ -10,10 +10,8 @@ export async function fetchData(url) {
   }
 
   const jsonResponse = await res.json();
-  console.log('API Response:', jsonResponse);
 
   const data = jsonResponse.response.results;
-  console.log('Extracted Data:', data);
 
   const headers = res.headers;
 
