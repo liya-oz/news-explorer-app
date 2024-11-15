@@ -23,6 +23,7 @@ export function createArticlesView(viewProps) {
       <button id="next-btn">></button>
       <button id="last-btn">>></button>
       <span id="total-items"></span>
+      <button id="to-top" class="to-top-btn">↑</button>
     </div>
   `;
 
@@ -34,6 +35,7 @@ export function createArticlesView(viewProps) {
   const lastBtn = root.querySelector('#last-btn');
   const pageNumbersSpan = root.querySelector('#page-numbers');
   const totalItemsSpan = root.querySelector('#total-items');
+  const toTopButton = root.querySelector('#to-top');
 
   firstBtn.addEventListener('click', () => viewProps.onPageChange(1));
   prevBtn.addEventListener('click', () => {
@@ -47,6 +49,19 @@ export function createArticlesView(viewProps) {
   lastBtn.addEventListener('click', () =>
     viewProps.onPageChange(viewProps.totalPages),
   );
+
+  document.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      toTopButton.classList.add('show');
+    } else {
+      toTopButton.classList.remove('show');
+    }
+  });
+
+  toTopButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
   const activatePagination = (state) => {
     const totalItems = state.totalResults || 0;
