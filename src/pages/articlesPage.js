@@ -6,21 +6,21 @@ import { createErrorPage } from './errorPage.js';
 
 export function createArticlesPage(initialState) {
   const state = { ...initialState };
+  let isFetching = false;
 
-  const onNextPage = () => {
-    state.page += 1;
-    update();
-  };
-
-  const onPrevPage = () => {
-    state.page -= 1;
+  const onPageChange = (newPage) => {
+    if (isFetching) return;
+    state.page = newPage;
     update();
   };
 
   const viewProps = {
-    onNextPage,
-    onPrevPage,
-    onItemClick: (article) => {},
+    onPageChange,
+    onItemClick: (article) => {
+      if (article.webUrl) {
+        window.open(article.webUrl, '_blank');
+      }
+    },
   };
 
   const articlesView = createArticlesView(viewProps);
@@ -36,14 +36,12 @@ export function createArticlesPage(initialState) {
 
       const { data, headers } = await fetchData(url);
 
-      // Check if 'Total-Results' header is present
       let totalResults = headers.get('Total-Results');
       if (!totalResults) {
-        totalResults = 100000;
+        totalResults = 28465;
       } else {
         totalResults = parseInt(totalResults, 10);
       }
-
       const totalPages = Math.ceil(totalResults / state.pageSize);
 
       if (totalResults === 0) {
@@ -56,6 +54,7 @@ export function createArticlesPage(initialState) {
 
       state.data = data;
       state.loading = false;
+      state.totalResults = totalResults;
       state.hasPrev = state.page > 1;
       state.hasNext = state.page < totalPages;
 
