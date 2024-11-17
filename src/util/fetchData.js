@@ -1,31 +1,41 @@
+import { PROXY_BASE_URL } from '../constants.js';
+
 const cache = {};
 
-export async function fetchData(url) {
-  const res = await fetch(url, {
-    headers: { accept: 'application/json' },
-  });
+export async function fetchData(endpoint, queryParams = {}) {
+  try {
+    const url = new URL(`${PROXY_BASE_URL}/${endpoint}`);
+    Object.entries(queryParams).forEach(([key, value]) => {
+      url.searchParams.append(key, value);
+    });
+    const res = await fetch(url.toString(), {
+      headers: { accept: 'application/json' },
+    });
 
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status}  ${res.statusText}`);
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    }
+
+    const jsonResponse = await res.json();
+    const data = jsonResponse.response?.results || [];
+    const headers = res.headers;
+    return { data, headers };
+  } catch (error) {
+    console.error('Error in fetchData:', error);
+    throw error;
   }
-
-  const jsonResponse = await res.json();
-
-  const data = jsonResponse.response.results;
-
-  const headers = res.headers;
-
-  return { data, headers };
 }
 
-export async function fetchCached(url) {
-  let cacheItem = cache[url];
-  if (cacheItem) {
-    return cacheItem;
+export async function fetchCached(endpoint, queryParams = {}) {
+  const queryKey = new URLSearchParams(queryParams).toString();
+  const cacheKey = `${endpoint}?${queryKey}`;
+
+  if (cache[cacheKey]) {
+    return cache[cacheKey];
   }
 
-  cacheItem = await fetchData(url);
-  cache[url] = cacheItem;
+  const cacheItem = await fetchData(endpoint, queryParams);
+  cache[cacheKey] = cacheItem;
 
   return cacheItem;
 }

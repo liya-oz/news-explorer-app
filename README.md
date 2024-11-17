@@ -27,11 +27,13 @@ The application’s files are organized as follows:
 public\
 src\
 └── pages\
-└── util\
-└── views\
-└── app.js
-└── constants.js
+└── proxy-server\
+ └── util\
+ └── views\
+ └── app.js
+ └── constants.js
 index.html
+
 ```
 
 ## Application State Object

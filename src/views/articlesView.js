@@ -38,25 +38,27 @@ export function createArticlesView(viewProps) {
   const toTopButton = root.querySelector('#to-top');
 
   firstBtn.addEventListener('click', () => viewProps.onPageChange(1));
-  prevBtn.addEventListener('click', () => {
-    viewProps.onPageChange(Math.max(1, viewProps.currentPage - 1));
-  });
-  nextBtn.addEventListener('click', () => {
+  prevBtn.addEventListener('click', () =>
+    viewProps.onPageChange(Math.max(1, viewProps.currentPage - 1)),
+  );
+  nextBtn.addEventListener('click', () =>
     viewProps.onPageChange(
       Math.min(viewProps.totalPages, viewProps.currentPage + 1),
-    );
-  });
+    ),
+  );
   lastBtn.addEventListener('click', () =>
     viewProps.onPageChange(viewProps.totalPages),
   );
 
-  document.addEventListener('scroll', () => {
+  const handleScroll = () => {
     if (window.scrollY > 400) {
       toTopButton.classList.add('show');
     } else {
       toTopButton.classList.remove('show');
     }
-  });
+  };
+
+  document.addEventListener('scroll', handleScroll);
 
   toTopButton.addEventListener('click', (event) => {
     event.preventDefault();
@@ -70,7 +72,6 @@ export function createArticlesView(viewProps) {
     const maxPageLinks = 5;
 
     totalItemsSpan.textContent = `Page ${currentPage} of ${totalPages}`;
-
     pageNumbersSpan.innerHTML = '';
 
     let startPage = Math.max(1, currentPage - Math.floor(maxPageLinks / 2));
@@ -83,9 +84,7 @@ export function createArticlesView(viewProps) {
       const pageBtn = document.createElement('button');
       pageBtn.textContent = i;
       pageBtn.classList.toggle('active-page', i === currentPage);
-      pageBtn.addEventListener('click', () => {
-        viewProps.onPageChange(i);
-      });
+      pageBtn.addEventListener('click', () => viewProps.onPageChange(i));
       pageNumbersSpan.appendChild(pageBtn);
     }
 
@@ -104,16 +103,15 @@ export function createArticlesView(viewProps) {
     } else {
       loadingIndicator.classList.add('hide');
     }
-
+    // part of errorView
     if (state.error || !state.data) {
       listContainer.innerHTML = state.error
-        ? 'Error loading articles.'
-        : 'No articles available.';
+        ? `<p class="error-message">Error loading articles. Please try again later.</p>`
+        : `<p class="no-data-message">No articles available at the moment.</p>`;
       return;
     }
 
     listContainer.innerHTML = '';
-
     const articleList = document.createElement('ul');
     articleList.className = 'no-bullets';
     listContainer.appendChild(articleList);

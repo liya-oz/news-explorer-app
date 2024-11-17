@@ -1,4 +1,4 @@
-import { API_BASE_URL, API_KEY } from '../constants.js';
+import { PROXY_BASE_URL } from '../constants.js';
 import { fetchData } from '../util/fetchData.js';
 import { loadPage } from '../util/loadPage.js';
 import { createArticlesView } from '../views/articlesView.js';
@@ -32,9 +32,14 @@ export function createArticlesPage(initialState) {
       state.data = null;
       articlesView.update(state);
 
-      const url = `${API_BASE_URL}/search?page=${state.page}&page-size=${state.pageSize}&order-by=${state.orderBy}&show-fields=thumbnail,trailText&api-key=${API_KEY}`;
-
-      const { data, headers } = await fetchData(url);
+      const endpoint = 'search';
+      const queryParams = {
+        page: state.page,
+        'page-size': state.pageSize,
+        'order-by': state.orderBy,
+        'show-fields': 'thumbnail,trailText',
+      };
+      const { data, headers } = await fetchData(endpoint, queryParams);
 
       let totalResults = headers.get('Total-Results');
       if (!totalResults) {
