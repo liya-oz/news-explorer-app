@@ -5,18 +5,32 @@ export function createArticlesView(viewProps) {
   root.className = 'articles-container';
 
   root.innerHTML = String.raw`
-    <header class="header">
-      <div class="header-content">
-        <div>Guardian Articles</div>
-      </div>
-    </header>
-    <div class="loading-indicator hide">
-      <div class="spin">
-        <i class="fa-solid fa-spinner fa-2xl"></i>
-      </div>
+  <header class="header">
+    <div class="header-content">
+      <h1>Guardian Articles</h1>
     </div>
-    <div id="list-container"></div>
-    <div class="button-container"> 
+  </header>
+  
+  <div class="search-filter-container">
+    <input type="text" id="keyword-input" placeholder="Search by keywords" aria-label="Search by keywords">
+    <select id="section-select" aria-label="Filter by section">
+      <option value="">All Sections</option>
+      <option value="world">World</option>
+      <option value="sports">Sports</option>
+      <!-- Add other sections -->
+    </select>
+    <button id="apply-filter">Search</button>
+  </div>
+  
+  <div class="loading-indicator hide">
+    <div class="spin">
+      <i class="fa-solid fa-spinner fa-2xl"></i>
+    </div>
+  </div>
+  
+  <div id="list-container"></div>
+  
+   <div class="button-container"> 
       <button id="first-btn"><<</button>
       <button id="prev-btn"><</button>
       <span id="page-numbers"></span>
@@ -36,6 +50,9 @@ export function createArticlesView(viewProps) {
   const pageNumbersSpan = root.querySelector('#page-numbers');
   const totalItemsSpan = root.querySelector('#total-items');
   const toTopButton = root.querySelector('#to-top');
+  const keywordInput = root.querySelector('#keyword-input');
+  const sectionSelect = root.querySelector('#section-select');
+  const applyFilterBtn = root.querySelector('#apply-filter');
 
   firstBtn.addEventListener('click', () => viewProps.onPageChange(1));
   prevBtn.addEventListener('click', () =>
@@ -63,6 +80,14 @@ export function createArticlesView(viewProps) {
   toTopButton.addEventListener('click', (event) => {
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  applyFilterBtn.addEventListener('click', () => {
+    const keywords = keywordInput.value.trim();
+    const section = sectionSelect.value;
+
+    // Update state with filters
+    viewProps.onFilterChange({ keywords, section });
   });
 
   const activatePagination = (state) => {
