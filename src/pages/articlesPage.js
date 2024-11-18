@@ -21,6 +21,12 @@ export function createArticlesPage(initialState) {
         window.open(article.webUrl, '_blank');
       }
     },
+    onFilterChange: ({ keywords, section }) => {
+      state.keywords = keywords;
+      state.section = section;
+      state.page = 1;
+      update();
+    },
   };
 
   const articlesView = createArticlesView(viewProps);

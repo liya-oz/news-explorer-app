@@ -4,7 +4,7 @@ const cache = {};
 
 export async function fetchData(endpoint, queryParams = {}) {
   try {
-    const url = new URL(`${PROXY_BASE_URL}/${endpoint}`);
+    const url = new URL(endpoint, PROXY_BASE_URL);
     Object.entries(queryParams).forEach(([key, value]) => {
       url.searchParams.append(key, value);
     });

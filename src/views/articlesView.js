@@ -5,41 +5,65 @@ export function createArticlesView(viewProps) {
   root.className = 'articles-container';
 
   root.innerHTML = String.raw`
-  <header class="header">
-    <div class="header-content">
-      <h1>Guardian Articles</h1>
+<header class="header">
+  <div class="header-content">
+    <!-- Logo -->
+    <h1>Guardian</h1>
+
+    <!-- Burger Menu Icon -->
+    <div class="burger-menu-icon">
+      <div class="ham-menu" id="burger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
-  </header>
-  
-  <div class="search-filter-container">
-    <input type="text" id="keyword-input" placeholder="Search by keywords" aria-label="Search by keywords">
-    <select id="section-select" aria-label="Filter by section">
-      <option value="">All Sections</option>
-      <option value="world">World</option>
-      <option value="sports">Sports</option>
-      <!-- Add other sections -->
-    </select>
-    <button id="apply-filter">Search</button>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" id="nav-menu">
+      <ul>
+        <li><a href="#world">World</a></li>
+        <li><a href="#politics">Politics</a></li>
+        <li><a href="#business">Business</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#science">Science</a></li>
+        <li><a href="#health">Health</a></li>
+        <li><a href="#sports">Sports</a></li>
+      </ul>
+    </nav>
   </div>
   
+</header>
+ <div class="main-content">
+ <!-- Search Filter -->
+    <div class="search-filter-container">
+      <input
+        type="text"
+        id="keyword-input"
+        placeholder="Search by keywords"
+        aria-label="Search by keywords"
+      />
+      <button id="apply-filter">Search</button>
+    </div>
   <div class="loading-indicator hide">
     <div class="spin">
-      <i class="fa-solid fa-spinner fa-2xl"></i>
+      
     </div>
   </div>
   
   <div id="list-container"></div>
-  
-   <div class="button-container"> 
-      <button id="first-btn"><<</button>
-      <button id="prev-btn"><</button>
-      <span id="page-numbers"></span>
-      <button id="next-btn">></button>
-      <button id="last-btn">>></button>
-      <span id="total-items"></span>
-      <button id="to-top" class="to-top-btn">↑</button>
-    </div>
-  `;
+
+  <div class="button-container"> 
+    <button id="first-btn"><<</button>
+    <button id="prev-btn"><</button>
+    <span id="page-numbers"></span>
+    <button id="next-btn">></button>
+    <button id="last-btn">>></button>
+    <span id="total-items"></span>
+    <button id="to-top" class="to-top-btn">↑</button>
+  </div>
+  </div>
+`;
 
   const loadingIndicator = root.querySelector('.loading-indicator');
   const listContainer = root.querySelector('#list-container');
@@ -51,7 +75,6 @@ export function createArticlesView(viewProps) {
   const totalItemsSpan = root.querySelector('#total-items');
   const toTopButton = root.querySelector('#to-top');
   const keywordInput = root.querySelector('#keyword-input');
-  const sectionSelect = root.querySelector('#section-select');
   const applyFilterBtn = root.querySelector('#apply-filter');
 
   firstBtn.addEventListener('click', () => viewProps.onPageChange(1));
@@ -84,10 +107,9 @@ export function createArticlesView(viewProps) {
 
   applyFilterBtn.addEventListener('click', () => {
     const keywords = keywordInput.value.trim();
-    const section = sectionSelect.value;
-
-    // Update state with filters
-    viewProps.onFilterChange({ keywords, section });
+    if (typeof viewProps.onFilterChange === 'function') {
+      viewProps.onFilterChange({ keywords });
+    }
   });
 
   const activatePagination = (state) => {
@@ -128,7 +150,7 @@ export function createArticlesView(viewProps) {
     } else {
       loadingIndicator.classList.add('hide');
     }
-    // part of errorView
+
     if (state.error || !state.data) {
       listContainer.innerHTML = state.error
         ? `<p class="error-message">Error loading articles. Please try again later.</p>`
