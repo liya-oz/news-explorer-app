@@ -1,7 +1,5 @@
 import { PROXY_BASE_URL } from '../constants.js';
 
-const cache = {};
-
 export async function fetchData(endpoint, queryParams = {}) {
   try {
     const url = new URL(endpoint, PROXY_BASE_URL);
@@ -24,18 +22,4 @@ export async function fetchData(endpoint, queryParams = {}) {
     console.error('Error in fetchData:', error);
     throw error;
   }
-}
-
-export async function fetchCached(endpoint, queryParams = {}) {
-  const queryKey = new URLSearchParams(queryParams).toString();
-  const cacheKey = `${endpoint}?${queryKey}`;
-
-  if (cache[cacheKey]) {
-    return cache[cacheKey];
-  }
-
-  const cacheItem = await fetchData(endpoint, queryParams);
-  cache[cacheKey] = cacheItem;
-
-  return cacheItem;
 }

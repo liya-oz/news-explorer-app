@@ -1,25 +1,22 @@
 import { createArticleListItemView } from './articleListItemView.js';
+import { activeBurgerMenu } from '../features/burger-menu.js';
+import { setupNavigationLinks } from '../features/articleSections.js';
 
 export function createArticlesView(viewProps) {
   const root = document.createElement('div');
   root.className = 'articles-container';
 
   root.innerHTML = String.raw`
-<header class="header">
+  <header class="header">
   <div class="header-content">
-    <!-- Logo -->
     <h1>Guardian</h1>
-
-    <!-- Burger Menu Icon -->
     <div class="burger-menu-icon">
-      <div class="ham-menu" id="burger-menu">
+      <div class="ham-menu">
         <span></span>
         <span></span>
         <span></span>
       </div>
     </div>
-
-    <!-- Navigation Menu -->
     <nav class="navigation" id="nav-menu">
       <ul>
         <li><a href="#world">World</a></li>
@@ -32,10 +29,10 @@ export function createArticlesView(viewProps) {
       </ul>
     </nav>
   </div>
-  
 </header>
- <div class="main-content">
- <!-- Search Filter -->
+
+  <div class="main-content">
+    <!-- Search Filter -->
     <div class="search-filter-container">
       <input
         type="text"
@@ -45,25 +42,21 @@ export function createArticlesView(viewProps) {
       />
       <button id="apply-filter">Search</button>
     </div>
-  <div class="loading-indicator hide">
-    <div class="spin">
-      
+    <div class="loading-indicator hide">
+      <div class="spin"></div>
+    </div>
+    <div id="list-container"></div>
+    <div class="button-container"> 
+      <button id="first-btn"><<</button>
+      <button id="prev-btn"><</button>
+      <span id="page-numbers"></span>
+      <button id="next-btn">></button>
+      <button id="last-btn">>></button>
+      <span id="total-items"></span>
+      <button id="to-top" class="to-top-btn">↑</button>
     </div>
   </div>
-  
-  <div id="list-container"></div>
-
-  <div class="button-container"> 
-    <button id="first-btn"><<</button>
-    <button id="prev-btn"><</button>
-    <span id="page-numbers"></span>
-    <button id="next-btn">></button>
-    <button id="last-btn">>></button>
-    <span id="total-items"></span>
-    <button id="to-top" class="to-top-btn">↑</button>
-  </div>
-  </div>
-`;
+  `;
 
   const loadingIndicator = root.querySelector('.loading-indicator');
   const listContainer = root.querySelector('#list-container');
@@ -76,6 +69,14 @@ export function createArticlesView(viewProps) {
   const toTopButton = root.querySelector('#to-top');
   const keywordInput = root.querySelector('#keyword-input');
   const applyFilterBtn = root.querySelector('#apply-filter');
+
+  setTimeout(() => {
+    activeBurgerMenu();
+  }, 0);
+
+  setTimeout(() => {
+    setupNavigationLinks(viewProps);
+  }, 0);
 
   firstBtn.addEventListener('click', () => viewProps.onPageChange(1));
   prevBtn.addEventListener('click', () =>
