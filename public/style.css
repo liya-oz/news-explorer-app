@@ -22,7 +22,17 @@ h2, h3, h4, h5, h6 {
 
 h1 {
   color: white;
-  margin: 0;
+  margin: 10px;
+  font-size: 1.5rem;
+}
+
+h1 a {
+  color: white;
+  text-decoration: none;
+}
+
+h1 a:hover {
+  text-decoration: none;
 }
 
 p {
@@ -44,7 +54,7 @@ p {
 }
 
 .main-content {
-  margin-top: calc(45px);
+  margin-top: 55px;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -207,7 +217,7 @@ p {
   background-color: rgb(12, 19, 69);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1010px) {
   .navigation {
     display: none;
   }
@@ -370,4 +380,39 @@ button {
 
 .to-top-btn.show {
   display: block;
+}
+
+.to-top-btn:hover {
+  color: var(--primary);
+}
+
+.error-container {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  max-width: 300px;
+  margin: 10px auto;
+}
+
+.error-container h4 {
+  color: #d9534f;
+  margin: 5px 0;
+}
+
+.error-container p {
+  color: #666;
+  margin: 5px 0;
+}
+
+.error-container button {
+  padding: 5px 10px;
+  background-color: #0a2264;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.error-container button:hover {
+  background-color: #081a4d;
 }

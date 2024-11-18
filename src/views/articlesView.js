@@ -9,7 +9,7 @@ export function createArticlesView(viewProps) {
   root.innerHTML = String.raw`
   <header class="header">
   <div class="header-content">
-    <h1>Guardian</h1>
+    <h1><a href="#" id="refresh-link">The Guardian Articles</a></h1>
     <div class="burger-menu-icon">
       <div class="ham-menu">
         <span></span>
@@ -37,7 +37,7 @@ export function createArticlesView(viewProps) {
       <input
         type="text"
         id="keyword-input"
-        placeholder="Search by keywords"
+        placeholder="Type here..."
         aria-label="Search by keywords"
       />
       <button id="apply-filter">Search</button>
@@ -69,6 +69,7 @@ export function createArticlesView(viewProps) {
   const toTopButton = root.querySelector('#to-top');
   const keywordInput = root.querySelector('#keyword-input');
   const applyFilterBtn = root.querySelector('#apply-filter');
+  const refreshLink = root.querySelector('#refresh-link');
 
   setTimeout(() => {
     activeBurgerMenu();
@@ -77,6 +78,11 @@ export function createArticlesView(viewProps) {
   setTimeout(() => {
     setupNavigationLinks(viewProps);
   }, 0);
+
+  refreshLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    location.reload();
+  });
 
   firstBtn.addEventListener('click', () => viewProps.onPageChange(1));
   prevBtn.addEventListener('click', () =>
