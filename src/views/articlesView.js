@@ -5,27 +5,65 @@ export function createArticlesView(viewProps) {
   root.className = 'articles-container';
 
   root.innerHTML = String.raw`
-    <header class="header">
-      <div class="header-content">
-        <div>Guardian Articles</div>
-      </div>
-    </header>
-    <div class="loading-indicator hide">
-      <div class="spin">
-        <i class="fa-solid fa-spinner fa-2xl"></i>
+<header class="header">
+  <div class="header-content">
+    <!-- Logo -->
+    <h1>Guardian</h1>
+
+    <!-- Burger Menu Icon -->
+    <div class="burger-menu-icon">
+      <div class="ham-menu" id="burger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
     </div>
-    <div id="list-container"></div>
-    <div class="button-container"> 
-      <button id="first-btn"><<</button>
-      <button id="prev-btn"><</button>
-      <span id="page-numbers"></span>
-      <button id="next-btn">></button>
-      <button id="last-btn">>></button>
-      <span id="total-items"></span>
-      <button id="to-top" class="to-top-btn">↑</button>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" id="nav-menu">
+      <ul>
+        <li><a href="#world">World</a></li>
+        <li><a href="#politics">Politics</a></li>
+        <li><a href="#business">Business</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#science">Science</a></li>
+        <li><a href="#health">Health</a></li>
+        <li><a href="#sports">Sports</a></li>
+      </ul>
+    </nav>
+  </div>
+  
+</header>
+ <div class="main-content">
+ <!-- Search Filter -->
+    <div class="search-filter-container">
+      <input
+        type="text"
+        id="keyword-input"
+        placeholder="Search by keywords"
+        aria-label="Search by keywords"
+      />
+      <button id="apply-filter">Search</button>
     </div>
-  `;
+  <div class="loading-indicator hide">
+    <div class="spin">
+      
+    </div>
+  </div>
+  
+  <div id="list-container"></div>
+
+  <div class="button-container"> 
+    <button id="first-btn"><<</button>
+    <button id="prev-btn"><</button>
+    <span id="page-numbers"></span>
+    <button id="next-btn">></button>
+    <button id="last-btn">>></button>
+    <span id="total-items"></span>
+    <button id="to-top" class="to-top-btn">↑</button>
+  </div>
+  </div>
+`;
 
   const loadingIndicator = root.querySelector('.loading-indicator');
   const listContainer = root.querySelector('#list-container');
@@ -36,31 +74,42 @@ export function createArticlesView(viewProps) {
   const pageNumbersSpan = root.querySelector('#page-numbers');
   const totalItemsSpan = root.querySelector('#total-items');
   const toTopButton = root.querySelector('#to-top');
+  const keywordInput = root.querySelector('#keyword-input');
+  const applyFilterBtn = root.querySelector('#apply-filter');
 
   firstBtn.addEventListener('click', () => viewProps.onPageChange(1));
-  prevBtn.addEventListener('click', () => {
-    viewProps.onPageChange(Math.max(1, viewProps.currentPage - 1));
-  });
-  nextBtn.addEventListener('click', () => {
+  prevBtn.addEventListener('click', () =>
+    viewProps.onPageChange(Math.max(1, viewProps.currentPage - 1)),
+  );
+  nextBtn.addEventListener('click', () =>
     viewProps.onPageChange(
       Math.min(viewProps.totalPages, viewProps.currentPage + 1),
-    );
-  });
+    ),
+  );
   lastBtn.addEventListener('click', () =>
     viewProps.onPageChange(viewProps.totalPages),
   );
 
-  document.addEventListener('scroll', () => {
+  const handleScroll = () => {
     if (window.scrollY > 400) {
       toTopButton.classList.add('show');
     } else {
       toTopButton.classList.remove('show');
     }
-  });
+  };
+
+  document.addEventListener('scroll', handleScroll);
 
   toTopButton.addEventListener('click', (event) => {
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  applyFilterBtn.addEventListener('click', () => {
+    const keywords = keywordInput.value.trim();
+    if (typeof viewProps.onFilterChange === 'function') {
+      viewProps.onFilterChange({ keywords });
+    }
   });
 
   const activatePagination = (state) => {
@@ -70,7 +119,6 @@ export function createArticlesView(viewProps) {
     const maxPageLinks = 5;
 
     totalItemsSpan.textContent = `Page ${currentPage} of ${totalPages}`;
-
     pageNumbersSpan.innerHTML = '';
 
     let startPage = Math.max(1, currentPage - Math.floor(maxPageLinks / 2));
@@ -83,9 +131,7 @@ export function createArticlesView(viewProps) {
       const pageBtn = document.createElement('button');
       pageBtn.textContent = i;
       pageBtn.classList.toggle('active-page', i === currentPage);
-      pageBtn.addEventListener('click', () => {
-        viewProps.onPageChange(i);
-      });
+      pageBtn.addEventListener('click', () => viewProps.onPageChange(i));
       pageNumbersSpan.appendChild(pageBtn);
     }
 
@@ -107,13 +153,12 @@ export function createArticlesView(viewProps) {
 
     if (state.error || !state.data) {
       listContainer.innerHTML = state.error
-        ? 'Error loading articles.'
-        : 'No articles available.';
+        ? `<p class="error-message">Error loading articles. Please try again later.</p>`
+        : `<p class="no-data-message">No articles available at the moment.</p>`;
       return;
     }
 
     listContainer.innerHTML = '';
-
     const articleList = document.createElement('ul');
     articleList.className = 'no-bullets';
     listContainer.appendChild(articleList);

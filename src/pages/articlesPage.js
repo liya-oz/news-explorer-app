@@ -1,4 +1,4 @@
-import { API_BASE_URL, API_KEY } from '../constants.js';
+import { PROXY_BASE_URL } from '../constants.js';
 import { fetchData } from '../util/fetchData.js';
 import { loadPage } from '../util/loadPage.js';
 import { createArticlesView } from '../views/articlesView.js';
@@ -21,6 +21,12 @@ export function createArticlesPage(initialState) {
         window.open(article.webUrl, '_blank');
       }
     },
+    onFilterChange: ({ keywords, section }) => {
+      state.keywords = keywords;
+      state.section = section;
+      state.page = 1;
+      update();
+    },
   };
 
   const articlesView = createArticlesView(viewProps);
@@ -32,16 +38,26 @@ export function createArticlesPage(initialState) {
       state.data = null;
       articlesView.update(state);
 
-      const url = `${API_BASE_URL}/search?page=${state.page}&page-size=${state.pageSize}&order-by=${state.orderBy}&show-fields=thumbnail,trailText&api-key=${API_KEY}`;
+      const queryParams = {
+        page: state.page,
+        'page-size': state.pageSize,
+        'order-by': state.orderBy,
+        'show-fields': 'thumbnail,trailText',
+      };
 
-      const { data, headers } = await fetchData(url);
+      if (state.keywords) queryParams.q = state.keywords;
+      if (state.section) queryParams.section = state.section;
 
-      let totalResults = headers.get('Total-Results');
-      if (!totalResults) {
-        totalResults = 28465;
-      } else {
-        totalResults = parseInt(totalResults, 10);
-      }
+      const endpoint = 'search';
+      const url = `${PROXY_BASE_URL}/${endpoint}`;
+      console.log('Fetching data from:', url, 'with params:', queryParams);
+
+      const { data, headers } = await fetchData(url, queryParams);
+
+      const totalResults = parseInt(
+        headers.get('Total-Results') || '28465',
+        10,
+      );
       const totalPages = Math.ceil(totalResults / state.pageSize);
 
       if (totalResults === 0) {
@@ -60,6 +76,7 @@ export function createArticlesPage(initialState) {
 
       articlesView.update(state);
     } catch (error) {
+      console.error('Error in update:', error.message);
       state.error = error;
       state.loading = false;
       loadPage(createErrorPage, state);

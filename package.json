@@ -1,0 +1,12 @@
+{
+  "name": "newsfeed",
+  "version": "1.0.0",
+  "description": "This application, **Newsfeed App**, is created using The Guardian's API and and presents them in an easy-to-use, responsive layout. It’s currently in development, with plans to add more features soon. You can check out what’s coming by looking at the GitHub Issues.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
