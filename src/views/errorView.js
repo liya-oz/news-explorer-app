@@ -1,16 +1,13 @@
 export function createErrorView(viewProps) {
   const root = document.createElement('div');
-  root.className = 'dialog-container whiteframe';
-  root.innerHTML = String.raw`
-    <h4>Oops... Something went wrong while loading articles</h4>
-    <div>
-      ${viewProps.error?.message || 'Unknown error occurred.'}
-    </div>
+  root.className = 'error-container';
+  root.innerHTML = `
+    <h4>Something went wrong</h4>
+    <p>${viewProps.error?.message || 'An unknown error occurred.'}</p>
     <button id="retry-btn">Retry</button>
   `;
 
-  const retryButton = root.querySelector('#retry-btn');
-  retryButton.addEventListener('click', viewProps.onRetry);
+  root.querySelector('#retry-btn').addEventListener('click', viewProps.onRetry);
 
   return { root };
 }
