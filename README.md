@@ -1,8 +1,8 @@
-# 📰 **News Hub Application**
+# 📰 **News Explorer Application**
 
-The **News Hub Application** is a single-page web app designed to deliver real-time news from around the globe.
+The **News Explorer Application** is a single-page web app designed to deliver real-time news from around the globe.
 
-Finding credible and up-to-date news articles can be overwhelming in today’s digital landscape. **News Hub Application** simplifies this process and allows users to stay updated with the latest news from around the world. Browse articles by categories, search for specific topics, and enjoy a user-friendly experience!
+Finding credible and up-to-date news articles can be overwhelming in today’s digital landscape. **News Explorer Application** simplifies this process and allows users to stay updated with the latest news from around the world. Browse articles by categories, search for specific topics, and enjoy a user-friendly experience!
 
 ## ✨ **Key Features**
 
