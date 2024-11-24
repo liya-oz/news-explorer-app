@@ -2,9 +2,7 @@ export function setupNavigationLinks(viewProps) {
   const navLinks = document.querySelectorAll('.navigation a');
 
   const handleKeywordSearch = (keyword) => {
-    if (typeof viewProps.onFilterChange === 'function') {
-      viewProps.onFilterChange({ keywords: keyword });
-    }
+    viewProps?.onFilterChange?.({ keywords: keyword });
   };
 
   navLinks.forEach((link) => {
