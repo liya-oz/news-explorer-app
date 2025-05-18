@@ -42,32 +42,32 @@ In an age of content overload, finding trustworthy, up-to-date information can b
 
    ```bash
    git clone https://github.com/your-repo/news-explorer-app.git
-   cd news-explorer-app```
+   cd news-explorer-app
 
 2. **Install dependencies**
 
    ```bash
-   npm install```
+   npm install
 
 3. **Configure environment**
 
    Create a `.env` file inside `src/proxy-server/`:```env
    PORT=5000
    API_BASE_URL=https://content.guardianapis.com
-   API_KEY=your-api-key-here```
+   API_KEY=your-api-key-here
 
 4. **Start the proxy server**
 
    ```bash
    cd src/proxy-server
-   node server.js```
+   node server.js
 
 5. **Launch the app**
 
    Once the proxy is running, open your browser:
 
    ```
-   http://localhost:5000```
+   http://localhost:5000
 
 ---
 
@@ -127,7 +127,7 @@ In an age of content overload, finding trustworthy, up-to-date information can b
 * **Endpoint (via proxy)**:
 
   ```bash
-  GET http://localhost:5000/api/search?q=climate```
+  GET http://localhost:5000/api/search?q=climate
 
 Query parameters:
 
