@@ -1,110 +1,170 @@
-# 📰 **News Explorer Application**
+<div>
+  <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-ES6+-yellow?logo=javascript">
+  <img alt="Node.js" src="https://img.shields.io/badge/Node.js-18.x-green?logo=node.js">
+  <img alt="Express" src="https://img.shields.io/badge/Express-4.21.1-lightgrey?logo=express">
+  <img alt="Axios" src="https://img.shields.io/badge/Axios-1.7.7-blue?logo=axios">
+  <img alt="dotenv" src="https://img.shields.io/badge/dotenv-16.4.5-green?logo=dotenv">
+  <img alt="morgan" src="https://img.shields.io/badge/morgan-1.10.0-lightgrey">
+  <img alt="CORS" src="https://img.shields.io/badge/CORS-enabled-blue">
+  <img alt="API" src="https://img.shields.io/badge/API-The%20Guardian-lightgrey?logo=theguardian">
+</div>
 
-The **News Explorer Application** is a single-page web app designed to deliver real-time news from around the globe.
+# News Explorer Application
 
-Finding credible and up-to-date news articles can be overwhelming in today’s digital landscape. **News Explorer Application** simplifies this process and allows users to stay updated with the latest news from around the world. Browse articles by categories, search for specific topics, and enjoy a user-friendly experience!
+**News Explorer** is a fast, single-page web app designed to deliver real-time, topic-based news from around the world—straight from **The Guardian API**.
 
-## ✨ **Key Features**
+In an age of content overload, finding trustworthy, up-to-date information can be frustrating. News Explorer cuts through the noise. Whether you're browsing by category or searching by keyword, the app helps you quickly find what matters.
 
-- 🔍 **Dynamic Keyword Search**: Quickly find articles by typing relevant keywords.
-- 📑 **Section-Based Navigation**: Explore categories such as Politics, Technology, Science, Health, and more.
-- 🖼️ **Rich Article Previews**: Display thumbnails, titles, snippets, and metadata for each article.
-- ⬆️ **Smooth Scroll to Top**: Navigate back to the top with a handy button.
-- ⚡ **Pagination**: Efficiently browse through articles with custom page controls.
-- 🚨 **Error Handling**: Informative error messages guide users when API calls fail.
+## Table of Contents
 
-## 📁 **Folder Structure**
+* [Quick Start](#quick-start)
+* [Features](#features)
+* [Folder Structure](#folder-structure)
+* [Tech Stack](#tech-stack)
+* [API Reference](#api-reference)
+* [Alternate Versions](#alternate-versions)
+* [Contributing](#contributing)
+* [Demo](#demo)
+* [License](#license)
 
-Separation of Concerns: The project follows clear modular principles to maintain code readability and reusability:
+---
 
-```plaintext
-├── index.html                 
-├── style.css     
-├── package.json       
-├── public/                
-│   └── favicon/       
-├── src/         
-│   ├── app.js                 # Main application logic
-│   ├── constants.js           # API configuration and constants
-│   ├── features/        
-│   │   ├── articleSections.js # Section navigation logic
-│   │   └── burger-menu.js     # Responsive navigation menu logic
-│   ├── pages/      
-│   │   ├── articlesPage.js    # Logic for displaying articles
-│   │   └── errorPage.js       # Logic for error handling
-│   ├── proxy-server/     
-│   │   ├── server.js          # Proxy server implementation
-│   │   └──  package.json       # Proxy server dependencies
-│   ├── util/         
-│   │   ├── fetchData.js       # Fetch API data
-│   │   └── loadPage.js        # Dynamic page loading utility
-│   └── views/    
-│       ├── articleListItemView.js  # UI for individual article previews
-│       ├── articlesView.js         # UI for listing articles
-│       └── errorView.js            # UI for error handling
-```
+## Quick Start
 
-## 🚀 **Getting Started**
+### Prerequisites
 
-### **Prerequisites**
+* `Node.js (v18.x or later)`
+* A registered API key from [The Guardian Open Platform](https://open-platform.theguardian.com/)
 
-- **Node.js** and **npm** installed on your system.
-- A valid **API_KEY** from **The Guardian API**.  
-  > To get an API key, sign up at [The Guardian Open Platform](https://open-platform.theguardian.com/).  
+### Setup Guide
 
-### **Installation**
+1. **Clone the repository**
 
-1. **Clone the Repository**:
-   ```
+   ```bash
    git clone https://github.com/your-repo/news-explorer-app.git
-   cd news-explorer-app
-   ```
+   cd news-explorer-app```
 
-2. **Install Dependencies**:
-   ```
-   npm install
-   ```
+2. **Install dependencies**
 
-3. **Create a `.env` File**:
-   Navigate to the `src/proxy-server` folder, create a file named `.env`, and add the following:
-   ```
+   ```bash
+   npm install```
+
+3. **Configure environment**
+
+   Create a `.env` file inside `src/proxy-server/`:```env
    PORT=5000
    API_BASE_URL=https://content.guardianapis.com
-   API_KEY=6cff0ae8-a6e5-4597-a67e-f444a36c2351
-   ```
-   > The sample API key is provided for testing purposes. Replace it with your own API key if needed.
+   API_KEY=your-api-key-here```
 
-4. **Start the Proxy Server**:
-   From the proxy server folder run the server:
-   ```
+4. **Start the proxy server**
+
+   ```bash
    cd src/proxy-server
-   node server.js
+   node server.js```
+
+5. **Launch the app**
+
+   Once the proxy is running, open your browser:
+
    ```
+   http://localhost:5000```
 
-5. **Run the Application**:  
-   Open your browser and navigate to:
-   ```
-   http://localhost:5000
-   ```
+---
 
+## Features
 
-## 🌐 **API Reference**
+* **Quickly search for articles on any topic**
+* **Category Navigation**
+* **Article Cards with titles, snippets, thumbnails, and metadata previews**
+* **Pagination Controls**
+* **Scroll-to-Top Button**
+* **Fail-Safe UI**
 
-The application fetches real-time news articles from **The Guardian API**.
+---
 
-- **Base URL**: `https://content.guardianapis.com/`
-- **Proxy**: A proxy server is to allow frontend requests.
+## Folder Structure
 
-## 📜 **Alternate Versions**
+```plaintext
+├── index.html                  
+├── style.css                    
+├── package.json                 
+├── public/
+│   └── favicon/                 
+├── src/
+│   ├── app.js                   
+│   ├── constants.js            
+│   ├── features/
+│   │   ├── articleSections.js   # Logic for category navigation
+│   │   └── burger-menu.js       # Responsive menu logic
+│   ├── pages/
+│   │   ├── articlesPage.js      # Renders articles to page
+│   │   └── errorPage.js         # Renders fallback UI
+│   ├── proxy-server/
+│   │   ├── server.js            # Node proxy server (API security layer)
+│   │   └── package.json         # Server-side dependencies
+│   ├── util/
+│   │   ├── fetchData.js         # Wrapper around fetch + error handling
+│   │   └── loadPage.js          # Page loader for SPA behavior
+│   └── views/
+│       ├── articleListItemView.js  # View for single article item
+│       ├── articlesView.js         # View to render article list
+│       └── errorView.js            # View for error rendering
+```
 
-- **Direct Browser Access**: The earlier tagged version allows users to view articles directly in the browser without needing a proxy server.
-- **Proxy Integration**: The current version uses a secure proxy server for enhanced functionality and secure API key management.
+---
 
-### Note:
-Details for both versions are available in the **Releases** section of the repository. Choose the version that fits your use case.
+## Tech Stack
 
+* **Frontend**: Vanilla JavaScript, HTML5, CSS3
+* **Backend**: Node.js (proxy server)
+* **API**: The Guardian Open Platform
 
-## 🎥 **Demo**
+---
 
-![Demo GIF](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2VoZGRqdHY0MzZucXU5c215eGFlenliMGFqbmVsdGN3ZGdtc3hzbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Fmjh9ULOiK4kwpbutW/giphy.gif
-)
+## API Reference
+
+* **Base URL**: `https://content.guardianapis.com`
+* **Endpoint (via proxy)**:
+
+  ```bash
+  GET http://localhost:5000/api/search?q=climate```
+
+Query parameters:
+
+* `q`: Keyword
+* `section`: e.g. `politics`, `technology`, `science`
+* `page`: Page number
+
+---
+
+## Alternate Versions
+
+### 1. Direct Browser Access (Legacy)
+
+* Early versions directly query the API in the browser (API key exposed)
+
+### 2. Proxy Integration (Current)
+
+* Secure routing through Node proxy
+* Protects API key and supports better scalability
+
+See the [Releases](https://github.com/your-repo/news-explorer-app/releases) section for version history.
+
+---
+
+## Contributing
+
+Interested in improving the project?
+Open an issue, fork the repository, or submit a pull request—we’d love to hear from you!
+
+---
+
+## Demo
+
+![News Explorer Demo](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2VoZGRqdHY0MzZucXU5c215eGFlenliMGFqbmVsdGN3ZGdtc3hzbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Fmjh9ULOiK4kwpbutW/giphy.gif)
+
+---
+
+## License
+
+This project is licensed under the **ISC License**. See the [LICENSE](./LICENSE) file for full details.
