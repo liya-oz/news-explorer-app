@@ -44,10 +44,11 @@ In an age of content overload, finding trustworthy, up-to-date information can b
    git clone https://github.com/your-repo/news-explorer-app.git
    cd news-explorer-app
 
-2. **Install dependencies**
+2. **Set Up the Proxy Server**
 
    ```bash
-   npm install
+  cd src/proxy-server
+  npm install
 
 3. **Configure environment**
 
@@ -71,7 +72,16 @@ In an age of content overload, finding trustworthy, up-to-date information can b
 
    ```
    http://localhost:5000
+   
+6. **Run the Frontend**
 
+   If you're using Visual Studio Code, make sure you have the Live Server extension installed. :
+
+- Go to `index.html`.
+- Click the **"Go Live"** button (bottom-right corner), or right-click the file and select **"Open with Live Server"**.
+- This will launch your frontend at address like`http://127.0.0.1:5500/`.
+
+> Make sure your proxy server is also running at `http://localhost:5000/` so API calls work properly.
 ---
 
 ## Features
