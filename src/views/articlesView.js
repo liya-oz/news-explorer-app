@@ -160,7 +160,7 @@ export function createArticlesView(viewProps) {
 
     if (state.error || !state.data) {
       listContainer.innerHTML = state.error
-        ? `<p class="error-message">Error loading articles. Please try again later.</p>`
+        ? `<p class="error-message">It’s taking a bit longer to load articles. This usually happens when the server is waking up. Please wait a few seconds and try again if needed.</p>`
         : `<p class="no-data-message">No articles available at the moment.</p>`;
       return;
     }
