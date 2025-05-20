@@ -15,6 +15,10 @@
 
 In an age of content overload, finding trustworthy, up-to-date information can be frustrating. News Explorer cuts through the noise. Whether you're browsing by category or searching by keyword, the app helps you quickly find what matters.
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/c8d1c0f8-5d30-435d-a04c-e6ef09d74ec5" width="700">
+</div>
+
 ## Table of Contents
 
 * [Quick Start](#quick-start)
