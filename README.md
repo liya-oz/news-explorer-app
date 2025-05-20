@@ -51,10 +51,13 @@ In an age of content overload, finding trustworthy, up-to-date information can b
 
 3. **Configure environment**
 
-   Create a `.env` file inside `src/proxy-server/`:```env
+   Create a `.env` file inside `src/proxy-server/`:
+
+```env
    PORT=5000
    API_BASE_URL=https://content.guardianapis.com
    API_KEY=your-api-key-here
+```
 
 4. **Start the proxy server**
 
