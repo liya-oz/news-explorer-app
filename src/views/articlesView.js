@@ -169,7 +169,7 @@ const update = (state) => {
   if (!state.data || state.data.length === 0) {
     listContainer.innerHTML = `
       <p class="no-data-message">
-        No articles available at the moment. Please check back later.
+        Articles are on their way — this may take a few moments. Please wait a bit.
       </p>`;
     return;
   }
