@@ -151,35 +151,45 @@ export function createArticlesView(viewProps) {
     viewProps.totalPages = totalPages;
   };
 
-  const update = (state) => {
-    if (state.loading) {
-      loadingIndicator.classList.remove('hide');
-    } else {
-      loadingIndicator.classList.add('hide');
-    }
+const update = (state) => {
+  if (state.loading) {
+    loadingIndicator.classList.remove('hide');
+  } else {
+    loadingIndicator.classList.add('hide');
+  }
 
-    if (state.error || !state.data) {
-      listContainer.innerHTML = state.error
-        ? `<p class="error-message">It’s taking a bit longer to load articles. This usually happens when the server is waking up. Please wait a few seconds and try again if needed.</p>`
-        : `<p class="no-data-message">No articles available at the moment.</p>`;
-      return;
-    }
+  if (state.error) {
+    listContainer.innerHTML = `
+      <p class="error-message">
+        Unable to load articles. If this is your first visit, the server may be waking up — please wait a few seconds and try refreshing the page.
+      </p>`;
+    return;
+  }
 
-    listContainer.innerHTML = '';
-    const articleList = document.createElement('ul');
-    articleList.className = 'no-bullets';
-    listContainer.appendChild(articleList);
+  if (!state.data || state.data.length === 0) {
+    listContainer.innerHTML = `
+      <p class="no-data-message">
+        No articles available at the moment. Please check back later.
+      </p>`;
+    return;
+  }
 
-    state.data.forEach((article) => {
-      const listItemView = createArticleListItemView({
-        article,
-        onItemClick: viewProps.onItemClick,
-      });
-      articleList.appendChild(listItemView.root);
+  listContainer.innerHTML = '';
+  const articleList = document.createElement('ul');
+  articleList.className = 'no-bullets';
+  listContainer.appendChild(articleList);
+
+  state.data.forEach((article) => {
+    const listItemView = createArticleListItemView({
+      article,
+      onItemClick: viewProps.onItemClick,
     });
+    articleList.appendChild(listItemView.root);
+  });
 
-    activatePagination(state);
-  };
+  activatePagination(state);
+};
+
 
   return { root, update };
 }
