@@ -11,7 +11,9 @@
 
 # News Explorer Application
 
-**News Explorer** is a fast, single-page web app designed to deliver real-time, topic-based news from around the world—straight from **The Guardian API**. [![View Demo](https://img.shields.io/badge/Live%20Demo-News%20Explorer-blue)](https://liya-oz.github.io/news-explorer-app/)
+**News Explorer** is a fast, single-page web app designed to deliver real-time, topic-based news from around the world—straight from **The Guardian API**.
+
+ [![View Demo](https://img.shields.io/badge/Live%20Demo-News%20Explorer-blue)](https://liya-oz.github.io/news-explorer-app/)
 
 
 In an age of content overload, finding trustworthy, up-to-date information can be frustrating. News Explorer cuts through the noise. Whether you're browsing by category or searching by keyword, the app helps you quickly find what matters. 
